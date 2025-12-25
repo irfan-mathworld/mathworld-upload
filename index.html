@@ -124,6 +124,22 @@
             color: #333;
         }
 
+        .delete-btn {
+            margin-top: 6px;
+            display: inline-block;
+            background: #e63946;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            opacity: 0.85;
+        }
+
         .footer-text {
             margin-top: 20px;
             font-size: 12px;
@@ -158,10 +174,8 @@
 
     <p>Upload math research files with a short description for each upload</p>
 
-    <!-- DESCRIPTION -->
     <textarea id="description" placeholder="Write a short description of the file(s) you are uploading..."></textarea>
 
-    <!-- UPLOAD -->
     <label class="upload-box">
         <div class="upload-icon">📘</div>
         <div><strong>Click to upload or drag & drop</strong></div>
@@ -171,7 +185,6 @@
 
     <button class="submit-btn" onclick="handleUpload()">Upload Files</button>
 
-    <!-- UPLOAD PREVIEW -->
     <div class="uploads-list" id="uploadsList"></div>
 
     <div class="footer-text">
@@ -182,11 +195,10 @@
 </div>
 
 <script>
-const cloudName = "duwlnrk8p"; // replace this
+const cloudName = "duwlnrk8p";
 const uploadPreset = "mathworld_upload";
 const STORAGE_KEY = "mathworld_uploads";
 
-// Load saved uploads on page load
 window.onload = () => {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     saved.forEach(addUploadToUI);
@@ -201,50 +213,45 @@ async function handleUpload() {
         return;
     }
 
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-
+    for (let file of files) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", uploadPreset);
 
-        try {
-            const response = await fetch(
-                `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
+        const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+            { method: "POST", body: formData }
+        );
 
-            const data = await response.json();
+        const data = await response.json();
 
-            const uploadData = {
-                description: desc,
-                filename: file.name,
-                url: data.secure_url
-            };
+        const uploadData = {
+            id: Date.now() + Math.random(),
+            description: desc,
+            filename: file.name,
+            url: data.secure_url
+        };
 
-            saveUpload(uploadData);
-            addUploadToUI(uploadData);
-
-        } catch (err) {
-            alert("Upload failed: " + file.name);
-        }
+        saveUpload(uploadData);
+        addUploadToUI(uploadData);
     }
 
     document.getElementById("description").value = "";
     document.getElementById("fileInput").value = "";
 }
 
-// Save to localStorage
 function saveUpload(upload) {
     const existing = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     existing.unshift(upload);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
 }
 
-// Display upload
+function deleteUpload(id) {
+    let existing = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    existing = existing.filter(u => u.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+}
+
 function addUploadToUI(upload) {
     const list = document.getElementById("uploadsList");
 
@@ -258,13 +265,21 @@ function addUploadToUI(upload) {
             <a href="${upload.url}" target="_blank"
                style="color:#1e3c72;font-size:13px;text-decoration:underline;">
                 ⬇ Download File
-            </a>
+            </a><br>
+            <button class="delete-btn">❌ Delete</button>
         </div>
     `;
+
+    item.querySelector(".delete-btn").onclick = () => {
+        if (confirm("Delete this file from the site?")) {
+            deleteUpload(upload.id);
+            item.remove();
+        }
+    };
 
     list.prepend(item);
 }
 </script>
 
-
+</body>
 </html>
