@@ -1,196 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>MathWorld File Upload</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>MathWorld File Upload</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .upload-container {
-            background: #fff;
-            width: 100%;
-            max-width: 520px;
-            padding: 35px;
-            border-radius: 18px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-            text-align: center;
-        }
-
-        .title span {
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        p {
-            color: #666;
-            font-size: 14px;
-            margin: 15px 0 20px;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 80px;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            resize: vertical;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #2a5298;
-        }
-
-        .upload-box {
-            border: 2px dashed #2a5298;
-            border-radius: 15px;
-            padding: 30px 15px;
-            cursor: pointer;
-            background: #f7f9fc;
-            transition: 0.3s;
-        }
-
-        .upload-box:hover {
-            background: #eef3ff;
-        }
-
-        .upload-box input {
-            display: none;
-        }
-
-        .upload-icon {
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
-
-        .submit-btn {
-            margin-top: 22px;
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            cursor: pointer;
-        }
-
-        .submit-btn:hover {
-            opacity: 0.95;
-        }
-
-        .uploads-list {
-            margin-top: 30px;
-            text-align: left;
-        }
-
-        .upload-item {
-            background: #f3f6ff;
-            border-left: 5px solid #2a5298;
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-        }
-
-        .upload-desc {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1e3c72;
-            margin-bottom: 5px;
-        }
-
-        .upload-file {
-            font-size: 13px;
-            color: #333;
-        }
-
-        .delete-btn {
-            margin-top: 6px;
-            display: inline-block;
-            background: #e63946;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        .delete-btn:hover {
-            opacity: 0.85;
-        }
-
-        .footer-text {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #555;
-            text-align: center;
-        }
-
-        .creator {
-            font-weight: 600;
-            color: #1e3c72;
-        }
-    </style>
+<style>
+*{box-sizing:border-box;font-family:'Inter',sans-serif}
+body{
+margin:0;min-height:100vh;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+display:flex;justify-content:center;align-items:center
+}
+.upload-container{
+background:#fff;max-width:540px;width:100%;
+padding:35px;border-radius:18px;
+box-shadow:0 20px 40px rgba(0,0,0,.25)
+}
+.title span{font-size:28px;font-weight:700}
+p{color:#666;font-size:14px;margin:15px 0}
+textarea{
+width:100%;min-height:80px;padding:12px;
+border-radius:10px;border:1px solid #ccc;
+margin-bottom:18px
+}
+.upload-box{
+border:2px dashed #2a5298;
+padding:28px;text-align:center;
+border-radius:15px;cursor:pointer
+}
+.upload-box input{display:none}
+.submit-btn{
+margin-top:20px;width:100%;
+padding:14px;border:none;border-radius:12px;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:#fff;font-size:16px;font-weight:600;cursor:pointer
+}
+.uploads-list{margin-top:25px}
+.upload-item{
+background:#f3f6ff;border-left:5px solid #2a5298;
+padding:12px;border-radius:10px;margin-bottom:12px
+}
+.upload-desc{font-weight:600;color:#1e3c72}
+.upload-file{font-size:13px;margin-top:5px}
+.delete-btn{
+margin-top:6px;background:#e63946;
+border:none;color:#fff;
+padding:6px 10px;border-radius:6px;
+font-size:12px;cursor:pointer
+}
+.admin-bar{
+text-align:right;margin-bottom:10px
+}
+.admin-btn{
+background:#2a5298;color:#fff;
+border:none;padding:6px 10px;
+border-radius:6px;font-size:12px;cursor:pointer
+}
+.footer-text{
+margin-top:20px;font-size:12px;
+text-align:center;color:#555
+}
+.creator{font-weight:600;color:#1e3c72}
+</style>
 </head>
 
 <body>
-
 <div class="upload-container">
 
-    <!-- MULTI COLOR HEADING -->
-    <div class="title">
-        <span style="color:#e63946;">M</span>
-        <span style="color:#f4a261;">a</span>
-        <span style="color:#2a9d8f;">t</span>
-        <span style="color:#264653;">h</span>
-        <span style="color:#6a4c93;">W</span>
-        <span style="color:#ff006e;">o</span>
-        <span style="color:#3a86ff;">r</span>
-        <span style="color:#8338ec;">l</span>
-        <span style="color:#fb5607;">d</span>
-        <span style="color:#1e3c72;"> Upload</span>
-    </div>
+<div class="admin-bar">
+<button class="admin-btn" onclick="adminLogin()">Admin Login</button>
+</div>
 
-    <p>Upload math research files with a short description for each upload</p>
+<div class="title">
+<span style="color:#e63946;">M</span>
+<span style="color:#f4a261;">a</span>
+<span style="color:#2a9d8f;">t</span>
+<span style="color:#264653;">h</span>
+<span style="color:#6a4c93;">W</span>
+<span style="color:#ff006e;">o</span>
+<span style="color:#3a86ff;">r</span>
+<span style="color:#8338ec;">l</span>
+<span style="color:#fb5607;">d</span>
+<span style="color:#1e3c72;"> Upload</span>
+</div>
 
-    <textarea id="description" placeholder="Write a short description of the file(s) you are uploading..."></textarea>
+<p>Upload math research files with description</p>
 
-    <label class="upload-box">
-        <div class="upload-icon">📘</div>
-        <div><strong>Click to upload or drag & drop</strong></div>
-        <div style="font-size:13px;color:#777;">PDF • LaTeX • DOCX • TXT • ZIP</div>
-        <input type="file" id="fileInput" multiple>
-    </label>
+<textarea id="description" placeholder="File description..."></textarea>
 
-    <button class="submit-btn" onclick="handleUpload()">Upload Files</button>
+<label class="upload-box">
+📘 Click to upload
+<input type="file" id="fileInput" multiple>
+</label>
 
-    <div class="uploads-list" id="uploadsList"></div>
+<button class="submit-btn" onclick="handleUpload()">Upload Files</button>
 
-    <div class="footer-text">
-        © 2025 MathWorld<br>
-        <span class="creator">Page created by Irfan Ali</span>
-    </div>
+<div class="uploads-list" id="uploadsList"></div>
+
+<div class="footer-text">
+© 2025 MathWorld<br>
+<span class="creator">Page created by Irfan Ali</span>
+</div>
 
 </div>
 
@@ -198,88 +111,77 @@
 const cloudName = "duwlnrk8p";
 const uploadPreset = "mathworld_upload";
 const STORAGE_KEY = "mathworld_uploads";
+const ADMIN_PASSWORD = "mathworld123"; // CHANGE THIS
+let isAdmin = sessionStorage.getItem("admin") === "true";
 
 window.onload = () => {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    saved.forEach(addUploadToUI);
+const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+saved.forEach(addUploadToUI);
 };
 
-async function handleUpload() {
-    const desc = document.getElementById("description").value.trim();
-    const files = document.getElementById("fileInput").files;
-
-    if (!desc || files.length === 0) {
-        alert("Please provide description and select files.");
-        return;
-    }
-
-    for (let file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", uploadPreset);
-
-        const response = await fetch(
-            `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
-            { method: "POST", body: formData }
-        );
-
-        const data = await response.json();
-
-        const uploadData = {
-            id: Date.now() + Math.random(),
-            description: desc,
-            filename: file.name,
-            url: data.secure_url
-        };
-
-        saveUpload(uploadData);
-        addUploadToUI(uploadData);
-    }
-
-    document.getElementById("description").value = "";
-    document.getElementById("fileInput").value = "";
+function adminLogin(){
+const pass = prompt("Enter admin password:");
+if(pass === ADMIN_PASSWORD){
+isAdmin = true;
+sessionStorage.setItem("admin","true");
+alert("Admin mode enabled");
+location.reload();
+}else{
+alert("Wrong password");
+}
 }
 
-function saveUpload(upload) {
-    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    existing.unshift(upload);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+async function handleUpload(){
+const desc=document.getElementById("description").value.trim();
+const files=document.getElementById("fileInput").files;
+if(!desc||files.length===0){alert("Missing data");return;}
+
+for(const file of files){
+const fd=new FormData();
+fd.append("file",file);
+fd.append("upload_preset",uploadPreset);
+
+const res=await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,{
+method:"POST",body:fd});
+const data=await res.json();
+
+const upload={id:Date.now()+Math.random(),description:desc,filename:file.name,url:data.secure_url};
+saveUpload(upload);
+addUploadToUI(upload);
 }
 
-function deleteUpload(id) {
-    let existing = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    existing = existing.filter(u => u.id !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+document.getElementById("description").value="";
+document.getElementById("fileInput").value="";
 }
 
-function addUploadToUI(upload) {
-    const list = document.getElementById("uploadsList");
+function saveUpload(upload){
+const all=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];
+all.unshift(upload);
+localStorage.setItem(STORAGE_KEY,JSON.stringify(all));
+}
 
-    const item = document.createElement("div");
-    item.className = "upload-item";
+function deleteUpload(id){
+let all=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];
+all=all.filter(u=>u.id!==id);
+localStorage.setItem(STORAGE_KEY,JSON.stringify(all));
+location.reload();
+}
 
-    item.innerHTML = `
-        <div class="upload-desc">${upload.description}</div>
-        <div class="upload-file">
-            📄 ${upload.filename}<br>
-            <a href="${upload.url}" target="_blank"
-               style="color:#1e3c72;font-size:13px;text-decoration:underline;">
-                ⬇ Download File
-            </a><br>
-            <button class="delete-btn">❌ Delete</button>
-        </div>
-    `;
+function addUploadToUI(upload){
+const list=document.getElementById("uploadsList");
+const item=document.createElement("div");
+item.className="upload-item";
 
-    item.querySelector(".delete-btn").onclick = () => {
-        if (confirm("Delete this file from the site?")) {
-            deleteUpload(upload.id);
-            item.remove();
-        }
-    };
-
-    list.prepend(item);
+item.innerHTML=`
+<div class="upload-desc">${upload.description}</div>
+<div class="upload-file">
+📄 ${upload.filename}<br>
+<a href="${upload.url}" target="_blank">⬇ Download</a>
+${isAdmin?`<br><button class="delete-btn" onclick="deleteUpload(${upload.id})">Delete</button>`:""}
+</div>
+`;
+list.appendChild(item);
 }
 </script>
-
 </body>
 </html>
