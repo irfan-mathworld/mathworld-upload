@@ -182,13 +182,19 @@
 </div>
 
 <script>
-const cloudName = "duwlnrk8p"; // e.g. dxabc123
+const cloudName = "duwlnrk8p"; // replace this
 const uploadPreset = "mathworld_upload";
+const STORAGE_KEY = "mathworld_uploads";
+
+// Load saved uploads on page load
+window.onload = () => {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    saved.forEach(addUploadToUI);
+};
 
 async function handleUpload() {
     const desc = document.getElementById("description").value.trim();
     const files = document.getElementById("fileInput").files;
-    const list = document.getElementById("uploadsList");
 
     if (!desc || files.length === 0) {
         alert("Please provide description and select files.");
@@ -213,31 +219,52 @@ async function handleUpload() {
 
             const data = await response.json();
 
-            // Create UI entry
-            const item = document.createElement("div");
-            item.className = "upload-item";
+            const uploadData = {
+                description: desc,
+                filename: file.name,
+                url: data.secure_url
+            };
 
-            item.innerHTML = `
-                <div class="upload-desc">${desc}</div>
-                <div class="upload-file">
-                    📄 ${file.name}<br>
-                    <a href="${data.secure_url}" target="_blank"
-                       style="color:#1e3c72;font-size:13px;text-decoration:underline;">
-                        ⬇ Download File
-                    </a>
-                </div>
-            `;
+            saveUpload(uploadData);
+            addUploadToUI(uploadData);
 
-            list.prepend(item);
-
-        } catch (error) {
-            alert("Upload failed for " + file.name);
+        } catch (err) {
+            alert("Upload failed: " + file.name);
         }
     }
 
     document.getElementById("description").value = "";
     document.getElementById("fileInput").value = "";
 }
+
+// Save to localStorage
+function saveUpload(upload) {
+    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    existing.unshift(upload);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+}
+
+// Display upload
+function addUploadToUI(upload) {
+    const list = document.getElementById("uploadsList");
+
+    const item = document.createElement("div");
+    item.className = "upload-item";
+
+    item.innerHTML = `
+        <div class="upload-desc">${upload.description}</div>
+        <div class="upload-file">
+            📄 ${upload.filename}<br>
+            <a href="${upload.url}" target="_blank"
+               style="color:#1e3c72;font-size:13px;text-decoration:underline;">
+                ⬇ Download File
+            </a>
+        </div>
+    `;
+
+    list.prepend(item);
+}
 </script>
+
 
 </html>
